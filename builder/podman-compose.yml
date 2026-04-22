@@ -3,6 +3,7 @@ services:
     build: .
     
     container_name: ${CONTAINER_NAME}
+    restart: unless-stopped
       
     volumes:
       - ${USER_WORKDIR}:/workspace
@@ -11,6 +12,8 @@ services:
     stdin_open: true
     tty: true
     
-    device_cdi:
-      - nvidia.com/gpu=all
+    devices:
+      - "nvidia.com/gpu=all"
+
+    shm_size: 64G
     
