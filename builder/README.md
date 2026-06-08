@@ -5,7 +5,7 @@
 cd /data/common/experiment/builder
 # Podman
 podman-compose -p {project_name} -f podman-compose.yml --env-file env/.env up --build -d
-podman-compose -p dialysis -f podman-compose_jyp.yml --env-file env/jyp.env up -d
+podman-compose -p cxr_ecg -f podman-compose.yml --env-file env/jyp.env up -d
 
 podman-compose -p lydia -f podman-compose.yml --env-file env/lydia.env up --build -d
 # Docker

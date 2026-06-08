@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # 1.1 Korean fonts for matplotlib (plt 한글 깨짐 방지)
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    fontconfig \
     fonts-nanum fonts-nanum-coding fonts-nanum-extra \
     && fc-cache -fv \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
