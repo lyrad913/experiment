@@ -1,7 +1,3 @@
-# Repository Guidelines Template
-
-이 문서는 향후 다른 프로젝트에도 복사해 사용할 수 있도록 만든 범용 `AGENTS.md` 템플릿이다.
-
 ## 프로젝트 목적
 - 이 저장소는 `<project_goal>`을 위한 연구/개발 프로젝트다.
 - 핵심 산출물은 보통 다음을 포함한다:

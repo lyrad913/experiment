@@ -3,7 +3,6 @@ services:
     build: .
     
     container_name: ${CONTAINER_NAME}
-    runtime: nvidia
     volumes:
       - ${USER_WORKDIR}:/workspace
       

@@ -30,12 +30,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 
 # 2. Install uv (Python package manager)
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.cargo/bin:${PATH}"
+ENV PATH="/root/.local/bin:${PATH}"
 
 # 3. Upgrade pip
 RUN pip3 install --no-cache-dir --upgrade pip
 
-# 4. Install code-server (Claude Code / VS Code in browser)
+# 4. Install Claude Code CLI
 RUN curl -fsSL https://claude.ai/install.sh | bash
 
 # 5. Install 
