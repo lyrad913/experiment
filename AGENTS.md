@@ -12,13 +12,13 @@
 
 ## 기술 스택
 - Language: `Python`
-- Package/Env: `uv`
+- Package/Env: `uv` (`pyproject.toml` + `uv.lock`이 환경의 단일 진실 원천)
 - Main Framework: `<main_framework>`
 - Testing: `pytest`
 - 실험 실행은 스크립트/모듈 기반으로 단순하게 유지한다.
 
 프로젝트별 기본값 예시:
-- Python version: `<python_version>`
+- Python version: `.python-version` 참조 (uv 관리 Python)
 - 주요 라이브러리: `<core_dependencies>`
 - 기본 디바이스 정책: `<device_policy>`
 
@@ -111,32 +111,32 @@
 작업 디렉터리:
 - `cd <repo_root>`
 
-가상환경:
-- `source .venv/bin/activate`
+환경 재현:
+- `uv sync --locked` : `uv.lock` 그대로 `.venv`를 재현한다. 컨테이너 시작 시 entrypoint가 자동 실행한다.
+- `.venv`를 직접 activate하지 않고 `uv run ...`으로 실행한다.
+
+의존성 관리:
+- `uv add <package_name>` / `uv remove <package_name>`
+- 개발 전용 도구: `uv add --dev <package_name>`
+- `pip install`, `uv pip install`은 사용하지 않는다. lock에 기록되지 않아 재현이 깨진다.
+- `torch`, `torchvision`, `torchaudio`는 `pyproject.toml`의 `[tool.uv.sources]`로 PyTorch CUDA 인덱스(`pytorch-cu130`)에 고정되어 있다. 버전 변경도 `uv add torch==<version>`으로 한다.
+- CUDA 버전을 바꿀 때는 `builder/Dockerfile` 베이스 이미지와 `pyproject.toml`의 인덱스 URL을 함께 바꾼다.
 
 uv 캐시 디렉터리:
 - sandbox 또는 권한 이슈가 있는 환경에서는 `UV_CACHE_DIR=/tmp/uv-cache`를 사용한다.
-- 예시:
-```bash
-export UV_CACHE_DIR=/tmp/uv-cache
-```
-
-의존성 관리:
-- `UV_CACHE_DIR=/tmp/uv-cache uv sync`
-- `UV_CACHE_DIR=/tmp/uv-cache uv add <package_name>`
 
 학습 예시:
-- `UV_CACHE_DIR=/tmp/uv-cache uv run python -m <train_module> <config_path>`
+- `uv run python -m <train_module> <config_path>`
 
 평가 예시:
-- `UV_CACHE_DIR=/tmp/uv-cache uv run python -m <eval_module> <config_path>`
+- `uv run python -m <eval_module> <config_path>`
 
 테스트:
-- `UV_CACHE_DIR=/tmp/uv-cache uv run pytest -q`
+- `uv run pytest -q`
 
 운영 원칙:
 - 직접 `python ...`보다 `uv run ...`을 우선한다.
-- `uv` 캐시 권한 문제가 예상되면 `UV_CACHE_DIR=/tmp/uv-cache`를 기본값으로 사용한다.
+- `pyproject.toml`을 바꾸면 `uv.lock`도 같은 커밋에 포함한다.
 - 실행 명령은 `README.md`와 실험 설정 파일에 함께 남긴다.
 - 공용 실행 진입점은 가능한 한 `uv run python -m <module>` 형태로 통일한다.
 

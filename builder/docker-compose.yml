@@ -5,6 +5,7 @@ services:
     container_name: ${CONTAINER_NAME}
     volumes:
       - ${USER_WORKDIR}:/workspace
+      - uv-cache:/root/.cache/uv
       
     ipc: host
     stdin_open: true
@@ -19,4 +20,8 @@ services:
               capabilities: [gpu]
 
     shm_size: 64G
-    
+
+volumes:
+  # 고정 이름: 같은 사용자(rootless dockerd)의 모든 프로젝트가 uv 캐시를 공유
+  uv-cache:
+    name: uv-cache

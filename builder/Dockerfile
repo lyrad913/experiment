@@ -1,4 +1,6 @@
-FROM pytorch/pytorch:2.9.1-cuda12.6-cudnn9-devel
+# torch는 uv가 프로젝트 .venv에 설치한다 (pyproject.toml / uv.lock 기준).
+# 이미지는 CUDA 툴킷 + 시스템 도구 + uv + uv 관리 Python만 제공한다.
+FROM nvidia/cuda:13.0.2-cudnn-devel-ubuntu22.04
 
 # 0. Locale (Korean UTF-8)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -48,24 +50,27 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
     && npm i -g @openai/codex \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 2. Install uv (Python package manager)
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.local/bin:${PATH}"
-
-# 3. Upgrade pip
-RUN pip3 install --no-cache-dir --upgrade pip
+# 2. Install uv (최신) + uv 관리 Python (버전은 .python-version과 맞춘다)
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
+# - 캐시(/root/.cache/uv)와 /workspace 볼륨은 파일시스템이 달라 hardlink 불가 → copy
+# - 시스템 Python 대신 uv가 받은 Python만 사용
+ENV UV_LINK_MODE=copy \
+    UV_PYTHON_PREFERENCE=only-managed \
+    UV_PYTHON_INSTALL_DIR=/opt/uv/python
+RUN uv python install 3.12.13
 
 # 4. Install Claude Code CLI
 RUN curl -fsSL https://claude.ai/install.sh | bash
+ENV PATH="/root/.local/bin:${PATH}"
 
-# 5. Install 
+# 5. Aliases
 RUN { \
     echo "alias ll='ls -alF'"; \
     echo "alias claude-fast='claude --dangerously-skip-permissions'"; \
     echo "alias codex-fast='codex --dangerously-bypass-approvals-and-sandbox'"; \
-} >> /root/.bashrc 
+} >> /root/.bashrc
 
-# 5. Create entrypoint script
+# 6. Entrypoint
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 COPY . /app/builder

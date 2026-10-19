@@ -47,4 +47,13 @@ if [ ! -d "src" ]; then
     echo "✅ Initialization complete."
 fi
 
+# Python 환경 동기화 (uv.lock 기준으로 .venv 재현)
+if [ -f "pyproject.toml" ]; then
+    if [ -f "uv.lock" ]; then
+        uv sync --locked || echo "⚠️  uv sync --locked 실패: uv.lock이 pyproject.toml과 맞지 않음. 'uv lock' 후 다시 'uv sync' 하세요."
+    else
+        uv sync || echo "⚠️  uv sync 실패"
+    fi
+fi
+
 exec "$@"

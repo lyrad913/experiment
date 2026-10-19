@@ -1,0 +1,24 @@
+[project]
+name = "experiment"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = ["torch>=2.14.1", "torchaudio>=2.11.0", "torchvision>=0.29.1"]
+
+[tool.uv]
+package = false
+# 컨테이너(Linux) 기준으로만 lock을 푼다.
+environments = ["sys_platform == 'linux'"]
+
+# 베이스 이미지 CUDA(13.0)에 맞춘 PyTorch 인덱스. explicit이라 torch 계열만 여기서 받는다.
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu130" }
+torchvision = { index = "pytorch-cu130" }
+torchaudio = { index = "pytorch-cu130" }
+
+[dependency-groups]
+dev = ["pytest>=9.1.1"]

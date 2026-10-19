@@ -30,7 +30,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-.python-version
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -41,12 +40,9 @@ venv.bak/
 profile_default/
 ipython_config.py
 
-# pyenv
-.python-version
-
 # UV (Python package manager)
 .uv/
-uv.lock
+# uv.lock, .python-version은 재현을 위해 커밋한다.
 
 # Data files (실험 데이터는 git에 포함하지 않음)
 data/raw/*
