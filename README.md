@@ -35,17 +35,18 @@ cd ./experiment/builder
 ### 2. 인프라 설정
 
 ```bash
-# Docker
-docker-compose -f docker-compose.yml --env-file env/.env build
+# Docker Compose V1
+docker-compose -f docker-compose.yml --env-file env/.env up --build -d 
 
-docker compose -f docker-compose.yml --env-file env/.env build
+# Docker Compose V2
+docker compose -f docker-compose.yml --env-file env/.env up --build -d 
 ```
 
 이 명령어는 다음을 수행합니다:
 - `builder/` 폴더 생성
-- Dockerfile, docker-compose.yml, podman-compose.yml 복사
+- Dockerfile, docker-compose.yml 복사
 - run.sh 실행 스크립트 복사
-- env/jyp.env 샘플 생성
+- env/jyp.env 샘플 생성(예시)
 
 ### 3. 환경 설정
 
