@@ -1,6 +1,6 @@
 # Experiment Infrastructure
 
-Docker/Podman 기반 DL 실험 환경 구축을 위한 인프라 파일들입니다.
+Rootless Docker 기반 DL 실험 환경 구축을 위한 인프라 파일들입니다.
 
 ## 📋 구조
 
@@ -10,7 +10,6 @@ Docker/Podman 기반 DL 실험 환경 구축을 위한 인프라 파일들입니
 │   │   ├── docker-compose.yml
 │   │   ├── Dockerfile
 │   │   ├── env
-│   │   ├── podman-compose.yml
 │   │   └── README.md
 │   ├── data
 │   ├── experiments
@@ -18,9 +17,7 @@ Docker/Podman 기반 DL 실험 환경 구축을 위한 인프라 파일들입니
 │   └── src
 │       ├── data
 │       ├── models
-│       │   └── __init__.py
 │       └── utils
-│           └── __init__.py
 ```
 
 ## 🚀 사용 방법
@@ -28,21 +25,20 @@ Docker/Podman 기반 DL 실험 환경 구축을 위한 인프라 파일들입니
 ### 1. 새 실험 프로젝트 생성
 
 ```bash
-# 실험 템플릿 복사 (github.com/JINAILAB/experiment_infra)
-git clone https://github.com/JINAILAB/experiment_infra.git
+# 실험 템플릿 복사 (github.com/lyrad913/experiment)
+git clone https://github.com/lyrad913/experiment.git
 
 ###
-cd ./data/common/experiment_infra/builder
+cd ./experiment/builder
 ```
 
 ### 2. 인프라 설정
 
 ```bash
-# Podman
-podman-compose -f podman-compose.yml --env-file env/.env build
-
 # Docker
 docker-compose -f docker-compose.yml --env-file env/.env build
+
+docker compose -f docker-compose.yml --env-file env/.env build
 ```
 
 이 명령어는 다음을 수행합니다:
@@ -67,9 +63,6 @@ docker-compose -f docker-compose.yml --env-file env/.env build
 ### 5. 컨테이너 접속
 
 ```bash
-# Podman
-podman exec -it <CONTAINER_NAME> /bin/bash
-
 # Docker
 docker exec -it <CONTAINER_NAME> /bin/bash
 ```
@@ -81,7 +74,6 @@ docker exec -it <CONTAINER_NAME> /bin/bash
 
 ### GPU 지원
 - Docker: `runtime: nvidia` 사용
-- Podman: device mapping + nvidia capabilities
 
 ### uv 기반 Python 환경
 torch를 포함한 모든 Python 패키지는 이미지가 아니라 `pyproject.toml` + `uv.lock`으로 관리합니다.

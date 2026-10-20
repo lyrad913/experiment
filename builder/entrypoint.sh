@@ -22,7 +22,7 @@ if [ ! -d "src" ]; then
     
     # 1. 기존 origin 제거 및 새로 추가
     # git remote remove origin 2>/dev/null || true
-    git remote add origin https://github.com/JINAILAB/experiment.git
+    git remote add origin https://github.com/lyrad913/experiment.git
     
     # 2. 코드 가져오기 (Github의 파일들이 들어옴)
     echo "📥 Pulling code from GitHub..."
