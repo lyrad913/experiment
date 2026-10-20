@@ -2,7 +2,15 @@
 name = "experiment"
 version = "0.1.0"
 requires-python = ">=3.12,<3.13"
-dependencies = ["torch>=2.14.1", "torchaudio>=2.11.0", "torchvision>=0.29.1"]
+dependencies = [
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.4",
+    "pandas>=3.0.6",
+    "polars>=2.0.0",
+    "torch>=2.14.1",
+    "torchaudio>=2.11.0",
+    "torchvision>=0.29.1",
+]
 
 [tool.uv]
 package = false
