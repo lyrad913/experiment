@@ -51,7 +51,7 @@ docker compose -f docker-compose.yml --env-file env/.env up --build -d
 ### 3. 환경 설정
 
 **필수 설정(env 파일):**
-- `CONTAINER_NAME`: 컨테이너 이름
+- `PROJECT_NAME`: 프로젝트 및 컨테이너 이름
 - `USER_WORKDIR`: workspace 경로 (예: jyp/my_experiment)
 - `GIT_USER_NAME`, `GIT_USER_EMAIL`: Git 설정
 
@@ -65,7 +65,7 @@ docker compose -f docker-compose.yml --env-file env/.env up --build -d
 
 ```bash
 # Docker
-docker exec -it <CONTAINER_NAME> /bin/bash
+docker exec -it <PROJECT_NAME> /bin/bash
 ```
 
 ## 🔧 주요 기능

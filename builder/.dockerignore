@@ -1,0 +1,3 @@
+# 개인 env 파일(토큰 포함)이 이미지 레이어와 /workspace/builder 로 복사되지 않게 한다
+env/*.env
+!env/example.env

@@ -1,0 +1,30 @@
+# 동시에 여러 컨테이너 생성 시 내려가거나 삭제되는 것을 방지하기 위함
+name: ${PROJECT_NAME}
+
+services:
+  experiment:
+    build: 
+      context: .
+      dockerfile: Dockerfiles/Dockerfile.torch
+
+    container_name: ${PROJECT_NAME}
+    volumes:
+      # 컨테이너 안의 /workspace directory가 ${USER_WORKDIR}에 대응됨
+      - ${USER_WORKDIR}:/workspace 
+
+    stdin_open: true
+    tty: true
+
+    # CDI 장치 이름 (new-user-rootless.sh 검증의 --device nvidia.com/gpu=all 과 동일)
+    devices:
+      - nvidia.com/gpu=all
+
+    environment:
+      - GIT_USER_NAME
+      - GIT_USER_EMAIL
+      - WANDB_API_KEY
+      - HF_TOKEN
+      - OPENAI_API_KEY 
+
+    # ipc: host 를 쓰면 shm_size 가 무시되므로 쓰지 않는다
+    shm_size: 64G
