@@ -71,7 +71,7 @@ RUN { \
 } >> /root/.bashrc
 
 # 6. Entrypoint
-COPY entrypoint-uv.sh /app/entrypoint.sh
+COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 COPY . /app/builder
 

@@ -3,6 +3,7 @@ name: ${PROJECT_NAME}
 
 services:
   experiment:
+    image: ${PROJECT_NAME}
     build: 
       context: .
       dockerfile: Dockerfiles/Dockerfile.torch

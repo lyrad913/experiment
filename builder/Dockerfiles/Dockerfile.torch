@@ -1,9 +1,4 @@
-FROM pytorch/pytorch:2.9.1-cuda13.0-cudnn9-devel
-
-# rootless podman 빌드에서 apt-key가 _apt 사용자로 /tmp 임시파일을 못 만들어
-# "Couldn't create temporary file /tmp/apt.conf.XXX for passing config to apt-key"가
-# 발생하는 문제 방지: apt 샌드박스 권한 강등을 끈다.
-RUN echo 'APT::Sandbox::User "root";' > /etc/apt/apt.conf.d/00no-sandbox
+FROM pytorch/pytorch:2.9.1-cuda12.6-cudnn9-devel
 
 # 0. Locale (Korean UTF-8)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -71,7 +66,7 @@ RUN { \
 } >> /root/.bashrc
 
 # 5. Create entrypoint script
-COPY entrypoint-torch.sh /app/entrypoint.sh
+COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 COPY . /app/builder
 
